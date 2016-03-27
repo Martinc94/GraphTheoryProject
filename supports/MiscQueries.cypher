@@ -17,3 +17,7 @@ RETURN r
 //returns all parties
 MATCH (n:party)
 RETURN n;
+
+//Returns all candidates who run in each constituency
+MATCH ()-[r:RUNS_IN]->() 
+RETURN r
