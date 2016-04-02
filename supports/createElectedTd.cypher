@@ -24,7 +24,7 @@ CREATE(:electedTd{constituency:"Carlow–Kilkenny ",name:"John McGuinness",votes
 (:electedTd{constituency:"Cork North–West",name:"Michael Creed",votes:"8869",share:"0.1889",status:"Made Quota ",seat:"1"}),
 (:electedTd{constituency:"Cork North–West",name:"Aindrias Moynihan",votes:"8924",share:"0.19",status:"Made Quota ",seat:"2"}),
 (:electedTd{constituency:"Cork North–West",name:"Michael Moynihan",votes:"7332",share:"0.1561",status:"Elected  ",seat:"3"}),
-(:electedTd{constituency:"Cork South–Central",name:"Michael McGrath",votes:"",share:"0.2118",status:"",seat:"1"}),
+(:electedTd{constituency:"Cork South–Central",name:"Michael McGrath",votes:"11,795",share:"0.2118",status:"Made Quota",seat:"1"}),
 (:electedTd{constituency:"Cork South–Central",name:"Micheál Martin",votes:"11346",share:"0.2038",status:"Made Quota ",seat:"2"}),
 (:electedTd{constituency:"Cork South–Central",name:"Donnchach O Laoghaire",votes:"6986",share:"0.1255",status:"Elected  ",seat:"3"}),
 (:electedTd{constituency:"Cork South–Central",name:"Simon Coveney",votes:"7965",share:"0.143",status:"Elected  ",seat:"4"}),
