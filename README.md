@@ -61,6 +61,10 @@ order by rel_count desc
 //Find all candidates of a party by substring
 MATCH (n:candidate)-[r:MEMBER_OF]->(p:party)where p.name=~'.*Fianna.*'
 RETURN n,r,p;
+
+//shortest path between Micheál Martin and Enda Kenny
+MATCH (a:candidate { name:"Micheál Martin" }),(b:candidate { name:"Enda Kenny" }), p = shortestPath((a)-[*..5]-(b))
+RETURN p
 ```
 
 ## Queries

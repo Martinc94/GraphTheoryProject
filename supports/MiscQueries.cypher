@@ -18,10 +18,6 @@ RETURN r
 MATCH (n:party)
 RETURN n;
 
-//Returns all candidates who run in each constituency
-MATCH ()-[r:RUNS_IN]->() 
-RETURN r
-
 //return all female independants 
 MATCH (a:candidate) where a.party = 'independent' AND a.gender='Female'
 RETURN a
@@ -34,3 +30,11 @@ RETURN a
 match n-[r:MEMBER_OF]-()
 return n, count(r) as rel_count
 order by rel_count desc
+
+//Returns all candidates who run in each constituency
+MATCH ()-[r:RUNS_IN]->() 
+RETURN r
+
+//shortest path between Micheál Martin and Enda Kenny
+MATCH (a:candidate { name:"Micheál Martin" }),(b:candidate { name:"Enda Kenny" }), p = shortestPath((a)-[*..5]-(b))
+RETURN p
