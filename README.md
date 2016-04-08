@@ -3,11 +3,10 @@
 
 ## Introduction
 This is my third year Graph Theory project. The project is about the Irish general election held on 26th of february.
-The country is divided into constituencies, with a number of seats available in each.
+The country is divided into constituencies, with a number of seats available in each. 
+I have created a database that contains information about all the parties, constituencies, candidates, results and other relevant information about the general election 2016
 
 ## Database
-//Explain how you created your database, and how information is represented in it.
-
 The database is made in Neo4j and is accessed by Cypher Queries.
 First I created the constituency node.
 I used a modified version of the table available on wikipedia(link in references below) to create a cypher script called createConstituency.cypher. 
@@ -67,12 +66,41 @@ MATCH (a:candidate { name:"Micheál Martin" }),(b:candidate { name:"Enda Kenny" 
 RETURN p
 ```
 
+Each Constituency, Candidate, Party and elected TD get their own node within the database.
+The nodes are linked by relationships such as what constituency they run in, what party they are a member of or if they are an independant.
+
 ## Queries
-Summarise your three queries here.
-Then explain them one by one in the following sections.
+My first query is to find out which political party had the most TDs elected in 2016 that were previously elected to the dail before 2016.
+The query returns a list of all party with the count of re-elected TDs beside
+##### Expected Results:
+```
+Party           NoOfTDs
+-----------------------
+Party Name      3
+Party Name      2
+Party Name      1
+```
+
+My second query is to find out all the independant TDs that were elected in any of the Dublin Constituencies that were previously TDs in the Dail and return all the nodes
+
+##### Expected Results:
+```
+Returns all nodes that are independents that got elected in any Dublin constituency and their relationship to each other(being an independent) 
+```
+
+My Third query is to find out the constituency where the elected TDs have the most people to represent per TD elected.
+
+##### Expected Results:
+```
+PersonsPerTD	Constituency		  NoOfSeats
+-----------------------------------------
+20000			    [ constituency ]	[3]
+19000			    [ constituency ]	[5]
+18000			    [ constituency ]	[4]
+```
 
 #### Query One: Re-elected previous TD's by party
-This is a Query to return the parties with the most re-elected TDs in 2016 that were previously TDs before 2016 election in descending order.
+This is a query to return the parties with the most re-elected TDs in 2016 that were previously TDs before 2016 election in descending order.
 This query works by getting all of the candidate nodes with the member of a party relationship that were previously a TDs and comparing them with the Elected TD nodes to return the node that match both the query then returns a list of each relevant party and count of each member that got elected in 2016 having already been a TD.
 ```cypher
 MATCH(c:candidate)-[:MEMBER_OF]->(p:party),(e:electedTd)
@@ -82,7 +110,7 @@ RETURN
 (p.name)AS Party ,count(p)AS NoOfTDs order by NoOfTDs desc
 ```
 
-#### Query Two: Independant TD's elected in any dublin constituency
+#### Query Two: Independant TD's re-elected in any dublin constituency
 This query is to return all independent candidates elected in any Dublin constituency in 2016 e.g(dublin-south-west,dublin-rathdown,dublin-central ETC)
 This query works by getting all of the candidate nodes that are an independent(IS_AN) and comparing them with the Elected TD nodes to return the nodes that match the query and the relationship of being an independent
 ```cypher
@@ -107,8 +135,8 @@ ORDER BY PersonsPerTD desc
 
 ## References
 1. [Neo4J website](http://neo4j.com/), the website of the Neo4j database.)
-2. [Irish constituencies website](https://en.wikipedia.org/wiki/Parliamentary_constituencies_in_the_Republic_of_Ireland), the wikipedia page of Irish constituencies)
-3. [Irish political parties website](https://en.wikipedia.org/wiki/List_of_political_parties_in_the_Republic_of_Ireland), the wikipedia page of Irish political parties)
-4. [Storyful website](https://medium.com/@Storyful/introducing-the-irish-election-open-database-68b49855657b#.avjerd187), the Storyful website source of candidate data)
-5. [Elections Ireland website](https://electionsireland.org/results/general/32dail.cfm), the Elections Ireland website Source of election Results)
-6. [Neo4J Docs website](http://neo4j.com/docs/), the website of Neo4j Documentation)
+2. [Irish constituencies website](https://en.wikipedia.org/wiki/Parliamentary_constituencies_in_the_Republic_of_Ireland), the wikipedia page of Irish constituencies.)
+3. [Irish political parties website](https://en.wikipedia.org/wiki/List_of_political_parties_in_the_Republic_of_Ireland), the wikipedia page of Irish political parties.)
+4. [Storyful website](https://medium.com/@Storyful/introducing-the-irish-election-open-database-68b49855657b#.avjerd187), the Storyful website source of candidate data.)
+5. [Elections Ireland website](https://electionsireland.org/results/general/32dail.cfm), the Elections Ireland website Source of election Results.)
+6. [Neo4J Docs website](http://neo4j.com/docs/), the website of Neo4j Documentation.)
