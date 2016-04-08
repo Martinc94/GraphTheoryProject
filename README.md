@@ -40,6 +40,16 @@ WHERE a.party = 'sinn-fein' AND b.name = 'Sinn Féin'
 CREATE (a)-[r:MEMBER_OF]->(b)
 RETURN r
 ```
+
+Then I created a relationship between candidates and Constituencies which allows users to search the database to see which candidates run in which constituencies. The queries to create the relationships are in the createConstituenciesRelationship.cypher script.
+#####Extract of createConstituenciesRelationship script:
+```cypher
+MATCH 
+(a:candidate),(c:constituency) WHERE a.constituency = 'carlow-kilkenny' 
+AND c.name = 'Carlow–Kilkenny ' CREATE (a)-[r:RUNS_IN]->(c)
+RETURN r
+```
+
 Then I augmented the database with information found from electionsireland website
 I created a node called electedTd which stored information(votes,share of votes,seat number etc) about each TD that got elected in the 2016 election.
 The createElectedTd.cypher script adds the results of the General election to the database.
@@ -62,7 +72,8 @@ MATCH (n:candidate)-[r:MEMBER_OF]->(p:party)where p.name=~'.*Fianna.*'
 RETURN n,r,p;
 
 //shortest path between Micheál Martin and Enda Kenny
-MATCH (a:candidate { name:"Micheál Martin" }),(b:candidate { name:"Enda Kenny" }), p = shortestPath((a)-[*..5]-(b))
+MATCH (a:candidate { name:"Micheál Martin" }),(b:candidate { name:"Enda Kenny" }),
+p = shortestPath((a)-[*..5]-(b))
 RETURN p
 ```
 
@@ -85,7 +96,8 @@ My second query is to find out all the independant TDs that were elected in any 
 
 ##### Expected Results:
 ```
-Returns all nodes that are independents that got elected in any Dublin constituency and their relationship to each other(being an independent) 
+Returns all nodes that are independents that got elected in any Dublin constituency 
+and their relationship to each other(being an independent) 
 ```
 
 My Third query is to find out the constituency where the elected TDs have the most people to represent per TD elected.
