@@ -71,36 +71,44 @@ RETURN p
 Summarise your three queries here.
 Then explain them one by one in the following sections.
 
-#### Query one title
-This query retreives the Bacon number of an actor...
+#### Query One: Re-elected previous TD's by party
+This is a Query to return the parties with the most re-elected TDs in 2016 that were previously TDs before 2016 election in descending order.
+This query works by getting all of the candidate nodes with the member of a party relationship that were previously a TDs and comparing them with the Elected TD nodes to return the node that match both the query then returns a list of each relevant party and count of each member that got elected in 2016 having already been a TD.
 ```cypher
-MATCH
-	(Bacon)
+MATCH(c:candidate)-[:MEMBER_OF]->(p:party),(e:electedTd)
+WHERE
+c.previousTD = 'TRUE' and e.name = c.name
 RETURN
-	Bacon;
+(p.name)AS Party ,count(p)AS NoOfTDs order by NoOfTDs desc
 ```
 
-#### Query two title
-This query retreives the Bacon number of an actor...
+#### Query Two: Independant TD's elected in any dublin constituency
+This query is to return all independent candidates elected in any Dublin constituency in 2016 e.g(dublin-south-west,dublin-rathdown,dublin-central ETC)
+This query works by getting all of the candidate nodes that are an independent(IS_AN) and comparing them with the Elected TD nodes to return the nodes that match the query and the relationship of being an independent
 ```cypher
-MATCH
-	(Bacon)
+MATCH(c:candidate)-[r:IS_AN]->(p:party),(e:electedTd)
+WHERE
+c.constituency=~'.*dublin.*' and e.name = c.name
 RETURN
-	Bacon;
+r
 ```
 
-#### Query three title
-This query retreives the Bacon number of an actor...
+#### Query Three: Persons per TD in each constituency
+This is a query to return a list of constituencies ordered by the highest average person per TD ratio.
+This query works by creating a list all of the constituencies and creating a PersonsPerTD ratio by dividing the population by the number of seats in each constituency. The query also returns each constituency name and amount of seats.
 ```cypher
-MATCH
-	(Bacon)
+MATCH(c:constituency)
 RETURN
-	Bacon;
+(c.population)/(c.seats) AS PersonsPerTD, 
+collect(c.name) AS Constituency,
+collect(c.seats) AS NoOfSeats
+ORDER BY PersonsPerTD desc
 ```
 
 ## References
-1. [Neo4J website](http://neo4j.com/), the website of the Neo4j database.
-2. https://en.wikipedia.org/wiki/Parliamentary_constituencies_in_the_Republic_of_Ireland
-3. https://en.wikipedia.org/wiki/List_of_political_parties_in_the_Republic_of_Ireland
-4. https://medium.com/@Storyful/introducing-the-irish-election-open-database-68b49855657b#.avjerd187
-5. https://electionsireland.org/results/general/32dail.cfm
+1. [Neo4J website](http://neo4j.com/), the website of the Neo4j database.)
+2. [Irish constituencies website](https://en.wikipedia.org/wiki/Parliamentary_constituencies_in_the_Republic_of_Ireland), the wikipedia page of Irish constituencies)
+3. [Irish political parties website](https://en.wikipedia.org/wiki/List_of_political_parties_in_the_Republic_of_Ireland), the wikipedia page of Irish political parties)
+4. [Storyful website](https://medium.com/@Storyful/introducing-the-irish-election-open-database-68b49855657b#.avjerd187), the Storyful website source of candidate data)
+5. [Elections Ireland website](https://electionsireland.org/results/general/32dail.cfm), the Elections Ireland website Source of election Results)
+6. [Neo4J Docs website](http://neo4j.com/docs/), the website of Neo4j Documentation)
