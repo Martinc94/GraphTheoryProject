@@ -123,8 +123,8 @@ RETURN
 ```
 
 #### Query Two: Independant TD's re-elected in any dublin constituency
-This query is to return all independent candidates elected in any Dublin constituency in 2016 e.g(dublin-south-west,dublin-rathdown,dublin-central ETC)
-This query works by getting all of the candidate nodes that are an independent(IS_AN) and comparing them with the Elected TD nodes to return the nodes that match the query and the relationship of being an independent
+This query is to return all independent candidates elected in any Dublin constituency in 2016 e.g(dublin-south-west,dublin-rathdown,dublin-central ETC).
+This query works by getting all of the candidate nodes that are an independent(IS_AN) and comparing them with the Elected TD nodes to return the nodes that match the query and the relationship of being an independent.
 ```cypher
 MATCH(c:candidate)-[r:IS_AN]->(p:party),(e:electedTd)
 WHERE
